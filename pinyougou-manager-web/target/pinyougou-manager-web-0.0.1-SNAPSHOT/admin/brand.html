@@ -20,73 +20,13 @@
 	<!-- 分页组件结束 -->
 	
 	
-	<script type="text/javascript">
-		//pagination : 引入的是angularjs下的pagination.js中的模块
-		var app = angular.module("pinyougou",['pagination']);
-		app.controller("brandController",function($scope,$http){
-			//查询品牌列表
-			$scope.findAll=function(){
-				$http.get('../brand/findAll.do').success(
-						function(response){
-							$scope.list = response;
-						});
-			}
-			//分页控件配置 *currentPage：当前页， *totalItems：总记录数
-						//*itemsPerPage：每页记录数，*perPageOptions：分页选项
-						//onChange：当页码变更后自动促发的方法
-			$scope.paginationConf = {
-				 currentPage: 1,
-				 totalItems: 10,
-				 itemsPerPage: 10,
-				 perPageOptions: [10, 20, 30, 40, 50],
-				 onChange: function(){
-				 	$scope.reloadList();//重新加载
-				 }
-			}; 
-
-			//刷新列表
-			$scope.reloadList=function(){
-				 $scope.findPage($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage);
-			}
-			//分页
-			$scope.findPage=function(page,size){
-				$http.get('../brand/findPage.do?page='+page+'&size='+size).success(
-					function(response){
-						$scope.list=response.rows;	//显示当前页数据
-						$scope.paginationConf.totalItems=response.total;	//更新总记录数
-				});
-			}
-			
-			//新增 & 修改
-			$scope.save=function(){
-				var methodName="add";
-				if($scope.entity.id!=null){
-					methodName="update";
-				}
-				$http.post('../brand/'+methodName+'.do',$scope.entity).success(
-					function(response){
-						if(response.success){
-							$scope.reloadList();//重新加载
-						}else{
-							alert(response.message);
-						}
-					});
-				
-			}
-			
-			//查询实体
-			$scope.findOne=function(id){
-				$http.get('../brand/findOne.do?id='+id).success(
-					function(response){
-						$scope.entity=response;	
-					});
-			}
-			
-			
-			
-		});
-	</script>
-    
+	<!-- 交互操作 -->
+	<script src="../js/base_pagination.js"></script>
+	<script src="../js/service/brandService.js"></script>
+	<script src="../js/controller/brandController.js"></script>
+	<script src="../js/controller/baseController.js"></script>
+	
+	
 </head>
 <body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="brandController">
   <!-- .box-body -->
@@ -104,14 +44,14 @@
                                 <div class="form-group form-inline">
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ng-click="entity={}"><i class="fa fa-file-o"></i> 新建</button>
-                                        <button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>           
+                                        <button type="button" class="btn btn-default" title="删除" ng-click="del()"><i class="fa fa-trash-o" ></i> 删除</button>           
                                         <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="box-tools pull-right">
                                 <div class="has-feedback">
-							                                         
+							        品牌名称：<input ng-model="searchEntity.name">品牌首字母：<input ng-model="searchEntity.firstChar"> <button type="button" class="btn btn-default" ng-click="reloadList()">查询</button>                                 
                                 </div>
                             </div>
                             <!--工具栏/-->
@@ -131,7 +71,7 @@
 			                      </thead>
 			                      <tbody>
 			                          <tr ng-repeat="entity in list">
-			                              <td><input  type="checkbox" ></td>			                              
+			                              <td><input  type="checkbox" ng-click="updateSelection($event,entity.id)"></td>			                              
 				                          <td>{{entity.id}}</td>
 									      <td>{{entity.name}}</td>									     
 		                                  <td>{{entity.firstChar}}</td>		                                 
@@ -144,13 +84,8 @@
 			                  </table>
 			                  <!--数据列表/-->                        
 							<tm-pagination conf="paginationConf"></tm-pagination>	  
-							 
                         </div>
                         <!-- 数据表格 /-->
-                        
-                        
-                        
-                        
                      </div>
                     <!-- /.box-body -->
          

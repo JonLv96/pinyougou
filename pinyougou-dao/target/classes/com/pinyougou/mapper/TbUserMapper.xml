@@ -477,4 +477,5 @@
       last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
 </mapper>
