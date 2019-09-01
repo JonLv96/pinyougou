@@ -8,7 +8,8 @@
   <artifactId>pinyougou-shop-web</artifactId>
   <packaging>war</packaging>
   
-    <dependencies>
+  
+   <dependencies>
     <!-- Spring -->
 	<dependency>
 		<groupId>org.springframework</groupId>
@@ -76,10 +77,42 @@
 		<artifactId>servlet-api</artifactId>		
 		<scope>provided</scope>
 	</dependency>
-  
 
-  </dependencies>
+	<dependency>
+		<groupId>org.springframework.security</groupId>
+		<artifactId>spring-security-web</artifactId>
+	</dependency>
+
+	<dependency>
+		<groupId>org.springframework.security</groupId>
+		<artifactId>spring-security-config</artifactId>
+	</dependency>
+
+	<dependency>
+		<groupId>com.pinyougou</groupId>
+		<artifactId>pinyougou-sellergoods-interface</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+	
+	
+		<!-- Spring-security -->
+	<dependency>
+		<groupId>org.springframework.security</groupId>
+		<artifactId>spring-security-web</artifactId>
+	</dependency>
+
+	<dependency>
+		<groupId>org.springframework.security</groupId>
+		<artifactId>spring-security-config</artifactId>
+	</dependency>
+	
+	
+	
+	
+	
+   </dependencies>
   
+ 	
   
     <build>  
 	  <plugins>
@@ -96,8 +129,6 @@
 	  	  </plugin>
 	  </plugins>  
     </build>
-  
-  
   
   
 </project>
