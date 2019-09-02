@@ -1,13 +1,18 @@
 package com.pinyougou.sellergoods.service.impl;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.pinyougou.mapper.TbGoodsDescMapper;
 import com.pinyougou.mapper.TbGoodsMapper;
 import com.pinyougou.pojo.TbGoods;
+import com.pinyougou.pojo.TbGoodsDesc;
 import com.pinyougou.pojo.TbGoodsExample;
 import com.pinyougou.pojo.TbGoodsExample.Criteria;
+import com.pinyougou.pojogroup.Goods;
 import com.pinyougou.sellergoods.service.GoodsService;
 
 import entity.PageResult;
@@ -22,6 +27,8 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Autowired
 	private TbGoodsMapper goodsMapper;
+	@Autowired
+	private TbGoodsDescMapper goodsDescMapper;
 	
 	/**
 	 * 查询全部
@@ -45,8 +52,16 @@ public class GoodsServiceImpl implements GoodsService {
 	 * 增加
 	 */
 	@Override
-	public void add(TbGoods goods) {
-		goodsMapper.insert(goods);		
+	public void add(Goods goods) {
+		//保存商品基本信息
+		TbGoods tbGoods = goods.getGoods();	//获取商品
+		tbGoods.setAuditStatus("0");	//将新插入的商品设置为 未审核状态
+		goodsMapper.insert(tbGoods);		
+		
+		//保存商品描述信息
+		TbGoodsDesc goodsDesc = goods.getGoodsDesc();
+		goodsDesc.setGoodsId(tbGoods.getId());	//将商品基本表id 给商品扩张表数据
+		goodsDescMapper.insert(goodsDesc);
 	}
 
 	

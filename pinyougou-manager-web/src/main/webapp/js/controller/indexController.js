@@ -3,7 +3,7 @@ app.controller('indexController',function($scope,loginService){
 	$scope.showLoginName = function(){
 		loginService.loginName().success(
 			function(response){
-				$scope.sellerId = response.loginName;
+				$scope.loginName = response.loginName;
 			});
 	}
 
