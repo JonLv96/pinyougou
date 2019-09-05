@@ -33,6 +33,7 @@
 <script src="../js/service/goodsService.js"></script>
 <script src="../js/service/typeTemplateService.js"></script>
 <script src="../js/service/uploadService.js"></script>
+
 <script src="../js/service/itemCatService.js"></script>
 <script src="../js/controller/baseController.js"></script>
 <script src="../js/controller/goodsController.js"></script>
@@ -40,7 +41,8 @@
 </head>
 
 <body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou"
-	ng-controller="goodsController" ng-init="selectItemCat1List()">
+	ng-controller="goodsController"
+	ng-init="selectItemCat1List();findOne()">
 
 	<!-- 正文区域 -->
 	<section class="content">
@@ -199,11 +201,11 @@
 						<div class="row data-type">
 							<div class="col-md-2 title">是否启用规格</div>
 							<div class="col-md-10 data">
-								<input type="checkbox" ng-model="entity.goods.isEnableSpec" ng-true-value="1" ng-false-value="0">
+								<input type="checkbox" ng-model="entity.goods.isEnableSpec"
+									ng-true-value="1" ng-false-value="0">
 							</div>
 						</div>
 						<p>
-						
 						<div ng-if="entity.goods.isEnableSpec=='1'">
 
 							<div class="row data-type">
@@ -212,15 +214,16 @@
 									<div class="col-md-2 title">{{pojo.text}}</div>
 									<div class="col-md-10 data">
 
-										<span ng-repeat="option in pojo.options"> <input
-											type="checkbox"
+										<span ng-repeat="option in pojo.options"> 
+											<input type="checkbox" ng-checked="checkAttributeValue(pojo.text,option.optionName)"
 											ng-click="updateSpecAttribute($event,pojo.text,option.optionName);createItemList()">{{option.optionName}}
 										</span>
 
 									</div>
 								</div>
-								{{entity.goodsDesc.specificationItems}}<br>
-								{{entity.itemList}}
+								<!-- {{entity.goodsDesc.specificationItems}} --><br>
+								<!-- {{entity.itemList}}<br>
+								{{entity.goodsDesc.specificationItems}} -->
 							</div>
 
 
@@ -242,16 +245,17 @@
 									<tbody>
 										<tr ng-repeat="pojo in entity.itemList">
 											<td ng-repeat="item in entity.goodsDesc.specificationItems">
-												{{pojo.spec[item.attributeName]}}
-											</td>
+												{{pojo.spec[item.attributeName]}}</td>
 											<td><input class="form-control" ng-model="pojo.price"
 												placeholder="价格"></td>
 											<td><input class="form-control" ng-model="pojo.num"
 												placeholder="库存数量"></td>
-											<td><input type="checkbox" ng-model="pojo.status" ng-true-value="1" ng-false-value="0"></td>
-											<td><input type="checkbox" ng-model="pojo.isDefault" ng-true-value="1" ng-false-value="0"></td>
+											<td><input type="checkbox" ng-model="pojo.status"
+												ng-true-value="1" ng-false-value="0"></td>
+											<td><input type="checkbox" ng-model="pojo.isDefault"
+												ng-true-value="1" ng-false-value="0"></td>
 										</tr>
-										
+
 									</tbody>
 								</table>
 
@@ -271,10 +275,11 @@
 
 		</div>
 		<div class="btn-toolbar list-toolbar">
-			<button class="btn btn-primary" ng-click="add()">
+			<button class="btn btn-primary" ng-click="save()">
 				<i class="fa fa-save"></i>保存
 			</button>
-			<button class="btn btn-default">返回列表</button>
+			<a class="btn btn-default" href="goods.html">返回列表</a>
+			
 		</div>
 
 	</section>

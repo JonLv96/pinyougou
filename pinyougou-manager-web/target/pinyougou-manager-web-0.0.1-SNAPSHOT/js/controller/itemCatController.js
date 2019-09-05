@@ -37,13 +37,14 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 		if($scope.entity.id!=null){//如果有ID
 			serviceObject=itemCatService.update( $scope.entity ); //修改  
 		}else{
+			$scope.entity.parentId=$scope.parentId;//赋予上级ID
 			serviceObject=itemCatService.add( $scope.entity  );//增加 
 		}				
 		serviceObject.success(
 			function(response){
 				if(response.success){
 					//重新查询 
-		        	$scope.reloadList();//重新加载
+					$scope.findByParentId($scope.parentId);//重新加载
 				}else{
 					alert(response.message);
 				}
@@ -51,7 +52,7 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 		);				
 	}
 	
-	 
+	
 	//批量删除 
 	$scope.dele=function(){			
 		//获取选中的复选框			
@@ -60,10 +61,15 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 				if(response.success){
 					$scope.reloadList();//刷新列表
 					$scope.selectIds=[];
-				}						
+				}else{
+					alert(response.message);
+				}					
 			}		
 		);				
 	}
+
+	
+	
 	
 	$scope.searchEntity={};//定义搜索对象 
 	
@@ -80,6 +86,7 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 	
 	//通过查询父级父类
 	$scope.findByParentId=function(parentId){
+		$scope.parentId=parentId;//记住上级ID
 		itemCatService.findByParentId(parentId).success(
 			function(response){
 				$scope.list=response;
@@ -104,7 +111,15 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 		if($scope.grade ==3){
 			$scope.entity_2=p_entity;
 		}
+		if($scope.grade ==4){
+			alert("到底啦！！！");
+			$scope.grade =3;
+			return;
+		}
 		$scope.findByParentId(p_entity.id);
 	}
+	
+	$scope.parentId=0;//上级ID
+	
 	
 });	

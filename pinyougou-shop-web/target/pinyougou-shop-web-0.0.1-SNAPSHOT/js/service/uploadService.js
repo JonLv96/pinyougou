@@ -6,7 +6,7 @@ app.service('uploadService',function($http){
 		
 		return $http({
 			url:"../upload.do",
-			method:'post',
+			method:'POST',
 			data:formdata,
 			headers:{'Content-Type':undefined},//如果不设置的话 默认的未json， 设置后  就为multipart 可以上传文件
 			transformRequest:angular.identity	//将文件转换成二进制格式
