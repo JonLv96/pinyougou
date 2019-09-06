@@ -8,7 +8,7 @@
   <artifactId>pinyougou-sellergoods-service</artifactId>
   <packaging>war</packaging>
   
-      <dependencies>
+  <dependencies>
   
   		<!-- Spring -->
 	<dependency>
