@@ -85,6 +85,11 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.pinyougou</groupId>
+			<artifactId>pinyougou-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
