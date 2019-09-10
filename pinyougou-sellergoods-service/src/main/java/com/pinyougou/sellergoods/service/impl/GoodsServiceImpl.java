@@ -1,5 +1,7 @@
 package com.pinyougou.sellergoods.service.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -262,6 +264,20 @@ public class GoodsServiceImpl implements GoodsService {
 		}
 	}
 
+	/**
+	 * 	根据SPU  的ID集合 查询SKU 的列表
+	 * @param goodIds
+	 * @param status
+	 * @return
+	 */
+	public List<TbItem> findItemListByGoodsIdListAndStatus(Long[] goodIds,String status) {
+		TbItemExample example = new TbItemExample();
+		com.pinyougou.pojo.TbItemExample.Criteria criteria = example.createCriteria();
+		criteria.andStatusEqualTo(status);
+		criteria.andGoodsIdIn(Arrays.asList(goodIds));	//指定条件SKU的ID集合
+		return itemMapper.selectByExample(example);
+	}
+	
 	
 	
 }

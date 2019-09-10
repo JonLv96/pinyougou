@@ -18,7 +18,6 @@ import com.pinyougou.pojo.TbItemExample.Criteria;
 @Component
 public class SolrUtil {
 
-	private static final Class<Byte> V = null;
 
 	@Autowired
 	private TbItemMapper itemMapper;
