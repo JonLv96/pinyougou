@@ -4,11 +4,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.pinyougou.page.service.ItemPageService;
 import com.pinyougou.pojo.TbGoods;
 import com.pinyougou.pojo.TbItem;
 import com.pinyougou.pojogroup.Goods;
@@ -116,12 +118,21 @@ public class GoodsController {
 			goodsService.updateStatus(ids, status);
 			
 			if("1".equals(status)) {
+				//******导入到索引库
+				//获取需要导入的SKU列表（此处为新审核的数据 且 状态为1 审核通过s）
 				List<TbItem> itemList = goodsService.findItemListByGoodsIdListAndStatus(ids, status);
 				if(itemList.size()>0) {
+					//导入到solr
 					itemSearchService.importList(itemList);
 				}else {
 					System.out.println("没有明细数据");
 				}
+				
+				//****生成商品详细页
+				for(Long goodsId:ids) {
+					itemPageService.genItemHtml(goodsId);
+				}
+				
 			}
 			
 			return new Result(true, "成功！！！");
@@ -129,6 +140,14 @@ public class GoodsController {
 			e.printStackTrace();
 			return new Result(false, "失败！！！");
 		}
+	}
+	
+	@Reference(timeout = 40000)
+	private ItemPageService itemPageService;
+	
+	@RequestMapping("/genHtml")
+	public void genHtml(Long goodsId) {
+		itemPageService.genItemHtml(goodsId);
 	}
 	
 }
