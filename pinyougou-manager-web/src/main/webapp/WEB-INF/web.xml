@@ -41,7 +41,8 @@
   	
   	 <context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:spring/spring-security.xml</param-value>
+		<!-- 此处还为了方便读取spring-jms文件 直接改成spring-* -->
+		<param-value>classpath:spring/spring-*.xml</param-value>
 	 </context-param>
 	 <listener>
 		<listener-class>
