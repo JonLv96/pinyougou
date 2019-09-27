@@ -23,11 +23,11 @@
 		<property name="minIdle" value="5" />
 	</bean>
 	
-	<!-- 让spring管理sqlsessionfactory 使用mybatis和spring整合包中的 -->
+	<!-- 让spring管理sqlsessionfactory 使用mybatis和spring整合包中�? -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<!-- 数据库连接池 -->
 		<property name="dataSource" ref="dataSource" />
-		<!-- 加载mybatis的全局配置文件 -->
+		<!-- 加载mybatis的全�?配置文件 -->
 		<property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml" />
 	</bean>
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
